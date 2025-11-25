@@ -1,6 +1,6 @@
 {
   "name": "@your-org/react-ui-library",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A modern React UI component library with TypeScript support",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
