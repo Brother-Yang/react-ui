@@ -63,7 +63,7 @@ export default function Select<T extends string | number = string | number>({
 
   if (multiple) {
     return (
-      <div ref={rootRef} className={classes} style={{ position: 'relative', ...style }} {...rest}>
+      <div ref={rootRef} className={classes} style={{ position: 'relative', ...style }}>
         <div className={styles.chips} onClick={() => !disabled && setOpen(o => !o)}>
           {selectedOptions.length === 0 && (
             <span className={styles.placeholder}>{placeholder || locale.select.placeholderMultiple}</span>
