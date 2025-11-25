@@ -23,3 +23,5 @@ export type { SwitchProps, SwitchSize } from './Switch';
 export { default as ConfigProvider } from '../context/ConfigProvider';
 export type { ConfigProviderProps, Locale, ThemeMode, ThemeTokens, ComponentSize } from '../types/config';
 export { enUS, zhCN } from '../context/ConfigProvider';
+export { Radio, RadioGroup } from './Radio';
+export type { RadioProps, RadioSize, RadioGroupProps, RadioGroupOption } from './Radio';

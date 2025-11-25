@@ -1,4 +1,4 @@
-export { Table, Button, Input, Select, Checkbox, Form, FormItem, Tabs, Switch } from './components';
+export { Table, Button, Input, Select, Checkbox, Form, FormItem, Tabs, Switch, Radio, RadioGroup } from './components';
 export { default as ConfigProvider } from './context/ConfigProvider';
 export type { 
   TableProps, 
@@ -16,6 +16,7 @@ export type { TabsProps, TabItem, TabsSize } from './types/tabs';
 export type { SwitchProps, SwitchSize } from './types/switch';
 export type { ConfigProviderProps, Locale, ThemeMode, ThemeTokens, ComponentSize } from './types/config';
 export { enUS, zhCN } from './context/ConfigProvider';
+export type { RadioProps, RadioSize, RadioGroupProps, RadioGroupOption } from './types/radio';
 
 // Export styles
 import './styles/variables.css';

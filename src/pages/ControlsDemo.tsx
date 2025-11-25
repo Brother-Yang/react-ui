@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Select, Checkbox, Tabs, Switch, ConfigProvider, zhCN, enUS } from '../components';
+import { Button, Input, Select, Checkbox, Tabs, Switch, ConfigProvider, zhCN, enUS, Radio, RadioGroup } from '../components';
 
 export default function ControlsDemo() {
   const [text, setText] = useState('Hello');
@@ -7,6 +7,8 @@ export default function ControlsDemo() {
   const [multi, setMulti] = useState<string[]>(['apple']);
   const [checked, setChecked] = useState<boolean>(true);
   const [toggle, setToggle] = useState<boolean>(true);
+  const [radioSingle, setRadioSingle] = useState<boolean>(true);
+  const [radioGroupValue, setRadioGroupValue] = useState<string>('a');
   const [dark, setDark] = useState<boolean>(false);
   const [localeKey, setLocaleKey] = useState<'en' | 'zh'>('en');
 
@@ -83,6 +85,22 @@ export default function ControlsDemo() {
             <Checkbox checked={checked} onChange={setChecked} label="Checked" />
             <Checkbox indeterminate label="Indeterminate" />
             <Checkbox disabled label="Disabled" />
+          </div>
+        </section>
+
+        <section>
+          <h3 style={{ fontSize: 18, fontWeight: 600 }}>Radio</h3>
+          <div style={{ display: 'grid', gap: 12 }}>
+            <Radio checked={radioSingle} onChange={(c) => setRadioSingle(c)} label="Single" />
+            <RadioGroup
+              options={[
+                { label: 'Option A', value: 'a' },
+                { label: 'Option B', value: 'b' },
+                { label: 'Option C', value: 'c', disabled: true },
+              ]}
+              value={radioGroupValue}
+              onChange={(v) => setRadioGroupValue(v as string)}
+            />
           </div>
         </section>
 
