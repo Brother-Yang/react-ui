@@ -1,0 +1,17 @@
+:root {
+  --dui-bg: #ffffff;
+  --dui-text: #111827;
+  --dui-border: #e5e7eb;
+  --dui-muted: #6b7280;
+  --dui-accent: #2563eb;
+  --dui-table-row-hover: #f9fafb;
+}
+
+.dark {
+  --dui-bg: #0b0f14;
+  --dui-text: #e5e7eb;
+  --dui-border: #1f2937;
+  --dui-muted: #9ca3af;
+  --dui-table-row-hover: #111827;
+}
+
