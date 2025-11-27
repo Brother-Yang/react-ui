@@ -18,6 +18,8 @@
   position: relative;
 }
 
+.box:focus-within { box-shadow: 0 0 0 3px var(--color-primary-light); }
+
 .input {
   appearance: none;
   -webkit-appearance: none;
@@ -26,6 +28,8 @@
   margin: 0;
   cursor: pointer;
 }
+
+.input:focus-visible { outline: none; }
 
 .dot {
   position: absolute;
@@ -43,6 +47,9 @@
 
 .label { color: var(--color-text); }
 .disabled { opacity: 0.6; cursor: not-allowed; }
+.readonly { opacity: 0.8; cursor: default; }
+.error .box { border-color: var(--color-error); }
+.error .label { color: var(--color-error); }
 
 .small .box { width: 16px; height: 16px; }
 .small .input { width: 16px; height: 16px; }

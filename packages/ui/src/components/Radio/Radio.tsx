@@ -11,6 +11,10 @@ export default function Radio<T extends string | number = string | number>({
   value,
   onChange,
   label,
+  readOnly,
+  status,
+  ariaPosinset,
+  ariaSetsize,
   className = '',
   style,
   ...rest
@@ -19,20 +23,29 @@ export default function Radio<T extends string | number = string | number>({
   const [internal, setInternal] = useState<boolean>(defaultChecked || false);
   const current = isControlled ? checked! : internal;
 
-  const rootClasses = [styles.radio, styles[size], disabled ? styles.disabled : '', className]
+  const rootClasses = [styles.radio, styles[size], disabled ? styles.disabled : '', readOnly ? styles.readonly : '', status ? styles[status] : '', className]
     .filter(Boolean)
     .join(' ');
   const boxClasses = [styles.box, current ? styles.checked : ''].filter(Boolean).join(' ');
 
   const toggle = () => {
-    if (disabled) return;
+    if (disabled || readOnly) return;
     const next = true; // radio sets checked when selected
     if (!isControlled) setInternal(next);
     onChange?.(next, value);
   };
 
   return (
-    <label className={rootClasses} style={style}>
+    <label
+      className={rootClasses}
+      style={style}
+      role="radio"
+      aria-checked={current}
+      aria-disabled={disabled || undefined}
+      aria-readonly={readOnly || undefined}
+      aria-posinset={ariaPosinset}
+      aria-setsize={ariaSetsize}
+    >
       <span className={boxClasses}>
         <input
           type="radio"
@@ -40,6 +53,9 @@ export default function Radio<T extends string | number = string | number>({
           checked={current}
           onChange={toggle}
           disabled={disabled}
+          value={value !== undefined ? String(value) : undefined}
+          aria-posinset={ariaPosinset}
+          aria-setsize={ariaSetsize}
           {...rest}
         />
         <span className={styles.dot} />
@@ -48,4 +64,3 @@ export default function Radio<T extends string | number = string | number>({
     </label>
   );
 }
-

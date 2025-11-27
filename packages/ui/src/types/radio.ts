@@ -10,6 +10,10 @@ export interface RadioProps<T extends string | number = string | number> extends
   value?: T;
   onChange?: (checked: boolean, value?: T) => void;
   label?: React.ReactNode;
+  readOnly?: boolean;
+  status?: 'error' | 'success' | 'warning';
+  ariaPosinset?: number;
+  ariaSetsize?: number;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -26,8 +30,11 @@ export interface RadioGroupProps<T extends string | number = string | number> ex
   defaultValue?: T;
   onChange?: (value: T) => void;
   disabled?: boolean;
+  readOnly?: boolean;
   size?: RadioSize;
   direction?: 'horizontal' | 'vertical';
+  name?: string;
+  label?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }

@@ -141,6 +141,31 @@ export default function App() {
               onChange={setRadioValue}
             />
           </div>
+          <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+            <h3 style={{ margin: '8px 0' }}>Radio Examples</h3>
+            <div style={{ display: 'grid', gap: 12 }}>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                <Radio label="Small" defaultChecked size="small" />
+                <Radio label="Medium" defaultChecked size="medium" />
+                <Radio label="Large" defaultChecked size="large" />
+              </div>
+              <div>
+                <RadioGroup
+                  options={[
+                    { label: 'Seattle', value: 'seattle' },
+                    { label: 'San Francisco', value: 'sf', disabled: true },
+                    { label: 'New York', value: 'ny' }
+                  ]}
+                  defaultValue={'seattle'}
+                  direction="vertical"
+                  name="city"
+                />
+              </div>
+              <div style={{ color: 'var(--dui-text-secondary)' }}>
+                Tip: Focus the group and use Arrow keys to navigate.
+              </div>
+            </div>
+          </div>
           <div>
             <Select
               options={[
