@@ -59,6 +59,11 @@
   --input-padding-inline-sm: var(--spacing-sm);
   --input-padding-inline-md: var(--spacing-md);
   --input-padding-inline-lg: var(--spacing-lg);
+
+  /* 选择框最小宽度 */
+  --select-min-width-sm: 140px;
+  --select-min-width-md: 180px;
+  --select-min-width-lg: 220px;
   
   /* 字体大小 */
   --font-size-xs: 12px;

@@ -18,6 +18,7 @@ export default function Select<T extends string | number = string | number>({
 }: SelectProps<T>) {
   const { locale } = useConfig();
   const rootRef = useRef<HTMLDivElement>(null);
+  const idRef = useRef(`select-${Math.random().toString(36).slice(2)}`);
   const isControlled = value !== undefined;
   const [internal, setInternal] = useState<T | T[] | undefined>(isControlled ? value : (multiple ? [] : undefined));
   useEffect(() => { if (isControlled) setInternal(value); }, [isControlled, value]);
@@ -42,6 +43,7 @@ export default function Select<T extends string | number = string | number>({
 
   // Dropdown state (used for both single and multiple)
   const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number>(-1);
   const selectedOptions = useMemo(() => options.filter(opt => currentMulti.includes(opt.value as T)), [options, currentMulti]);
 
   useEffect(() => {
@@ -70,13 +72,16 @@ export default function Select<T extends string | number = string | number>({
           {selectedOptions.map(opt => (
             <span key={String(opt.value)} className={styles.chip}>
               {opt.label}
-              <button type="button" aria-label="Remove" onClick={(e) => { e.stopPropagation(); toggleOption(opt); }}>×</button>
+              <button type="button" aria-label={locale.select.remove || 'Remove'} onClick={(e) => { e.stopPropagation(); toggleOption(opt); }}>×</button>
             </span>
           ))}
         </div>
         <button type="button" className={styles.caret} onClick={() => !disabled && setOpen(o => !o)} disabled={disabled}>▾</button>
         {open && (
-          <div className={styles.dropdown} role="listbox" aria-multiselectable>
+          <div className={styles.dropdown} role="listbox" aria-multiselectable id={`${idRef.current}-listbox`}>
+            {options.length === 0 && (
+              <div className={styles.item} aria-disabled>{locale.select.noOptions || 'No options'}</div>
+            )}
             {options.map(opt => {
               const selected = currentMulti.some(v => String(v) === String(opt.value));
               return (
@@ -99,25 +104,79 @@ export default function Select<T extends string | number = string | number>({
   }
 
   return (
-    <div ref={rootRef} className={classes} style={{ position: 'relative', ...style }} {...rest}>
-      <div className={styles.display} onClick={() => !disabled && setOpen(o => !o)}>
+    <div
+      ref={rootRef}
+      className={classes}
+      style={{ position: 'relative', ...style }}
+      role="combobox"
+      aria-expanded={open}
+      aria-controls={`${idRef.current}-listbox`}
+      aria-haspopup="listbox"
+      aria-activedescendant={open && activeIndex >= 0 ? `${idRef.current}-option-${activeIndex}` : undefined}
+      tabIndex={disabled ? -1 : 0}
+      onClick={() => { if (!disabled) setOpen(o => !o); }}
+      onKeyDown={(e) => {
+        if (disabled) return;
+        const nextIndex = (dir: number) => {
+          const len = options.length;
+          if (len === 0) return -1;
+          const selectedIdx = options.findIndex(o => String(o.value) === String(currentSingle));
+          let idx = activeIndex;
+          if (idx < 0) {
+            if (selectedIdx >= 0) idx = selectedIdx; else idx = -1;
+          }
+          let ni = idx < 0 ? (dir > 0 ? 0 : len - 1) : idx + dir;
+          if (ni < 0) ni = len - 1;
+          if (ni >= len) ni = 0;
+          setActiveIndex(ni);
+        };
+        if (e.key === 'ArrowDown') { e.preventDefault(); setOpen(true); nextIndex(1); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); setOpen(true); nextIndex(-1); }
+        else if (e.key === 'Enter') {
+          if (open && activeIndex >= 0 && !options[activeIndex].disabled) {
+            setValue(options[activeIndex].value as T);
+            setOpen(false);
+          } else {
+            setOpen(o => !o);
+          }
+        } else if (e.key === 'Escape') {
+          setOpen(false);
+        }
+      }}
+      {...rest}
+    >
+      <div
+        className={styles.display}
+        onClick={(e) => { e.stopPropagation(); if (!disabled) setOpen(o => !o); }}
+      >
         {selectedLabel === undefined ? (
           <span className={styles.placeholder}>{placeholder || locale.select.placeholder}</span>
         ) : (
           <span className={styles.value}>{selectedLabel}</span>
         )}
       </div>
-      <button type="button" className={styles.caret} onClick={() => !disabled && setOpen(o => !o)} disabled={disabled}>▾</button>
+      <button
+        type="button"
+        className={styles.caret}
+        onClick={(e) => { e.stopPropagation(); if (!disabled) setOpen(o => !o); }}
+        disabled={disabled}
+      >
+        ▾
+      </button>
       {open && (
-        <div className={styles.dropdown} role="listbox">
-          {options.map(opt => {
+        <div className={styles.dropdown} role="listbox" id={`${idRef.current}-listbox`}>
+          {options.length === 0 && (
+            <div className={styles.item} aria-disabled>{locale.select.noOptions || 'No options'}</div>
+          )}
+          {options.map((opt, i) => {
             const selected = String(opt.value) === String(currentSingle);
             return (
               <div
                 key={String(opt.value)}
                 role="option"
                 aria-selected={selected}
-                className={`${styles.item} ${selected ? styles.selected : ''} ${opt.disabled ? styles.disabled : ''}`}
+                id={`${idRef.current}-option-${i}`}
+                className={`${styles.item} ${selected ? styles.selected : ''} ${opt.disabled ? styles.disabled : ''} ${activeIndex === i ? styles.active : ''}`}
                 onClick={() => {
                   if (opt.disabled) return;
                   setValue(opt.value as T);

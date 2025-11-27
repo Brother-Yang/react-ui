@@ -140,6 +140,31 @@ export default function App() {
               placeholder={locale.select.placeholderMultiple}
             />
           </div>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <Select
+              options={[
+                { label: 'Seattle', value: 'seattle' },
+                { label: 'San Francisco', value: 'sf' },
+                { label: 'New York', value: 'ny' }
+              ]}
+              placeholder={locale.select.placeholder}
+            />
+            <Select
+              options={[]}
+              placeholder={locale.select.placeholder}
+            />
+            <Select
+              options={[
+                { label: 'Alpha', value: 'a' },
+                { label: 'Beta', value: 'b' },
+                { label: 'Gamma', value: 'g' }
+              ]}
+              multiple
+              value={['a', 'b']}
+              onChange={setMultiValues as any}
+              placeholder={locale.select.placeholderMultiple}
+            />
+          </div>
           <div>
             <Switch checked={switchOn} onChange={setSwitchOn} label={switchOn ? 'On' : 'Off'} />
           </div>

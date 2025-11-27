@@ -6,6 +6,9 @@ type Locale = {
   select: {
     placeholder: string;
     placeholderMultiple: string;
+    noOptions?: string;
+    remove?: string;
+    clearAll?: string;
   };
   table: {
     noData: string;
@@ -23,7 +26,10 @@ type Locale = {
 export const enUS: Locale = {
   select: {
     placeholder: 'Please select',
-    placeholderMultiple: 'Select options'
+    placeholderMultiple: 'Select options',
+    noOptions: 'No options',
+    remove: 'Remove',
+    clearAll: 'Clear all'
   },
   table: {
     noData: 'No data',
@@ -35,7 +41,10 @@ export const enUS: Locale = {
 export const zhCN: Locale = {
   select: {
     placeholder: '请选择',
-    placeholderMultiple: '选择多个选项'
+    placeholderMultiple: '选择多个选项',
+    noOptions: '暂无选项',
+    remove: '移除',
+    clearAll: '清除全部'
   },
   table: {
     noData: '暂无数据',
@@ -57,6 +66,10 @@ function mergeLocale(base: Locale, overrides: Partial<Locale> | Locale): Locale 
     select: {
       placeholder: o?.select?.placeholder ?? base.select.placeholder,
       placeholderMultiple: o?.select?.placeholderMultiple ?? base.select.placeholderMultiple
+      ,
+      noOptions: o?.select?.noOptions ?? base.select.noOptions,
+      remove: o?.select?.remove ?? base.select.remove,
+      clearAll: o?.select?.clearAll ?? base.select.clearAll
     },
     table: {
       noData: o?.table?.noData ?? base.table.noData,
