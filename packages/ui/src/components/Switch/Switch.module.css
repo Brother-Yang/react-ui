@@ -12,9 +12,9 @@
   width: 44px;
   height: 24px;
   box-sizing: border-box;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--switch-off-border);
   border-radius: 999px;
-  background: var(--color-surface);
+  background: var(--switch-off-bg);
   box-shadow: var(--shadow-small);
   cursor: pointer;
   transition: background-color var(--transition-medium), border-color var(--transition-medium);
@@ -34,22 +34,46 @@
   box-shadow: var(--shadow-small);
   transition: transform var(--transition-medium);
   transform: translate(0, -50%);
+  z-index: 1;
 }
 
 .checked {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  background: var(--switch-on-bg);
+  border-color: var(--switch-on-border);
 }
-.checked .thumb { transform: translate(20px, -50%); }
+.checked .thumb { transform: translate(22px, -50%); }
 
 .disabled { opacity: 0.6; cursor: not-allowed; }
+.readonly { opacity: 0.8; cursor: default; }
+.error .button { border-color: var(--color-error); }
+.success .button { border-color: var(--color-success); }
+.warning .button { border-color: var(--color-warning); }
+
+.content {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--font-size-xs);
+  color: #fff;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity var(--transition-medium);
+  z-index: 2;
+}
+
+.contentOn { left: 8px; right: calc(50% + var(--switch-text-gap)); text-align: left; opacity: 0; }
+.contentOff { left: calc(50% + var(--switch-text-gap)); right: 8px; text-align: right; opacity: 1; }
+.checked .contentOn { opacity: 1; }
+.checked .contentOff { opacity: 0; }
 
 .small .button { width: 36px; height: 20px; }
 .small .thumb { width: 16px; height: 16px; }
-.small .checked .thumb { transform: translate(16px, -50%); }
+.small .checked .thumb { transform: translate(18px, -50%); }
 
 .large .button { width: 56px; height: 32px; }
 .large .thumb { width: 28px; height: 28px; }
-.large .checked .thumb { transform: translate(24px, -50%); }
+.large .checked .thumb { transform: translate(26px, -50%); }
 
 .label { color: var(--color-text); }

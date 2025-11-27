@@ -64,6 +64,13 @@
   --select-min-width-sm: 140px;
   --select-min-width-md: 180px;
   --select-min-width-lg: 220px;
+
+  /* Switch colors */
+  --switch-on-bg: var(--color-primary);
+  --switch-on-border: var(--color-primary);
+  --switch-off-bg: var(--color-surface);
+  --switch-off-border: var(--color-border);
+  --switch-text-gap: 4px;
   
   /* 字体大小 */
   --font-size-xs: 12px;
@@ -107,7 +114,7 @@
 }
 
 /* 手动深色模式类 */
-[data-theme="dark"] {
+  [data-theme="dark"] {
   --color-primary: #4a9eff;
   --color-primary-hover: #3a7bd5;
   --color-primary-light: #1a365d;
@@ -123,4 +130,8 @@
   --color-success: #68d391;
   --color-warning: #f6e05e;
   --color-error: #fc8181;
-}
+    --switch-on-bg: #4a9eff;
+    --switch-on-border: #4a9eff;
+    --switch-off-bg: #2d3748;
+    --switch-off-border: #4a5568;
+  }

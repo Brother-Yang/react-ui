@@ -9,7 +9,12 @@ export interface SwitchProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   size?: SwitchSize;
   onChange?: (checked: boolean) => void;
   label?: React.ReactNode;
+  readOnly?: boolean;
+  status?: 'error' | 'success' | 'warning';
+  name?: string;
+  value?: string;
+  onContent?: React.ReactNode;
+  offContent?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }
-

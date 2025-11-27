@@ -58,6 +58,8 @@ export default function App() {
   const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
   const [tableLoading, setTableLoading] = useState(false);
   const [tabsActive, setTabsActive] = useState<string>('a1');
+  const [switchA, setSwitchA] = useState(false);
+  const [switchB, setSwitchB] = useState(true);
 
   return (
     <ConfigProvider theme={dark ? 'dark' : 'light'} locale={locale}>
@@ -219,6 +221,24 @@ export default function App() {
           </div>
           <div>
             <Switch checked={switchOn} onChange={setSwitchOn} label={switchOn ? 'On' : 'Off'} />
+          </div>
+          <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+            <h3 style={{ margin: '8px 0' }}>Switch Examples</h3>
+            <div style={{ display: 'grid', gap: 12 }}>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                <Switch size="small" checked={switchA} onChange={setSwitchA} label={`Small ${switchA ? 'On' : 'Off'}`} />
+                <Switch size="medium" checked={switchB} onChange={setSwitchB} label={`Medium ${switchB ? 'On' : 'Off'}`} />
+                <Switch size="large" defaultChecked label="Large Default On" />
+              </div>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                <Switch disabled label="Disabled" />
+                <Switch defaultChecked disabled label="Disabled On" />
+                <Switch readOnly defaultChecked label="ReadOnly" />
+                <Switch status="error" label="Error State" />
+                <Switch status="success" label="Success State" defaultChecked />
+                <Switch status="warning" label="Warning State" />
+              </div>
+            </div>
           </div>
           <div>
             <Table
