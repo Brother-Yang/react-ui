@@ -10,6 +10,7 @@ export default function Checkbox({
   disabled,
   label,
   onChange,
+  size = 'medium',
   className = '',
   style,
   ...rest
@@ -24,7 +25,7 @@ export default function Checkbox({
 
   const currentChecked = isControlled ? checked! : internalChecked;
 
-  const rootClasses = [styles.checkbox, disabled ? styles.disabled : '', className].filter(Boolean).join(' ');
+  const rootClasses = [styles.checkbox, styles[`checkbox-${size}`], disabled ? styles.disabled : '', className].filter(Boolean).join(' ');
   const boxClasses = [styles.box, currentChecked ? styles.checked : '', indeterminate ? styles.indeterminate : '']
     .filter(Boolean)
     .join(' ');
@@ -36,7 +37,13 @@ export default function Checkbox({
   };
 
   return (
-    <label className={rootClasses} style={style}>
+    <label
+      className={rootClasses}
+      style={style}
+      role="checkbox"
+      aria-checked={indeterminate ? 'mixed' : currentChecked}
+      aria-disabled={disabled || undefined}
+    >
       <span className={boxClasses}>
         <input
           ref={inputRef}
@@ -53,4 +60,3 @@ export default function Checkbox({
     </label>
   );
 }
-

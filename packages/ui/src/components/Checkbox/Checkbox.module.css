@@ -17,6 +17,10 @@
   transition: all var(--transition-medium);
 }
 
+.box:focus-within {
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
 .input {
   appearance: none;
   -webkit-appearance: none;
@@ -25,6 +29,8 @@
   margin: 0;
   cursor: pointer;
 }
+
+.input:focus-visible { outline: none; }
 
 .checked {
   background-color: var(--color-primary);
@@ -45,3 +51,7 @@
 .label { color: var(--color-text); }
 .disabled { opacity: 0.6; cursor: not-allowed; }
 
+/* Sizes */
+.checkbox-small .box, .checkbox-small .input { width: 16px; height: 16px; }
+.checkbox-medium .box, .checkbox-medium .input { width: 18px; height: 18px; }
+.checkbox-large .box, .checkbox-large .input { width: 22px; height: 22px; }

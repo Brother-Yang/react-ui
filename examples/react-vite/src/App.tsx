@@ -6,6 +6,7 @@ import {
   Button,
   Input,
   Checkbox,
+  CheckboxGroup,
   Radio,
   RadioGroup,
   Select,
@@ -105,6 +106,29 @@ export default function App() {
           </div>
           <div>
             <Checkbox checked={checked} onChange={setChecked} label="Checkbox" />
+          </div>
+          <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+            <h3 style={{ margin: '8px 0' }}>Checkbox Examples</h3>
+            <div style={{ display: 'grid', gap: 12 }}>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                <Checkbox size="small" label="Small" />
+                <Checkbox size="medium" label="Medium" />
+                <Checkbox size="large" label="Large" />
+              </div>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                <Checkbox label="Indeterminate" indeterminate />
+                <Checkbox label="Disabled" disabled />
+              </div>
+              <div>
+                <CheckboxGroup
+                  options={[
+                    { label: 'Apple', value: 'apple' },
+                    { label: 'Banana', value: 'banana', disabled: true },
+                    { label: 'Cherry', value: 'cherry' },
+                  ]}
+                />
+              </div>
+            </div>
           </div>
           <div>
             <RadioGroup

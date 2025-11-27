@@ -1,7 +1,7 @@
 export { ConfigProvider, enUS, zhCN, useConfig } from './config';
 import './styles/variables.css';
 export { Button } from './components/Button';
-export { Checkbox } from './components/Checkbox';
+export { Checkbox, CheckboxGroup } from './components/Checkbox';
 export { Form, FormItem } from './components/Form';
 export { Input } from './components/Input';
 export { Radio, RadioGroup } from './components/Radio';
