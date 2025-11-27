@@ -18,8 +18,19 @@ export interface FormProps<TValues extends Record<string, any> = Record<string, 
   layout?: FormLayout;
   disabled?: boolean;
   validateOnChange?: boolean;
+  validateOnBlur?: boolean;
+  onValuesChange?: (values: TValues, changed: { name: keyof TValues & string; value: any }) => void;
+  formRef?: React.MutableRefObject<FormApi<TValues> | null>;
   className?: string;
   style?: React.CSSProperties;
+}
+
+export interface FormApi<TValues extends Record<string, any> = Record<string, any>> {
+  getFieldsValue: () => TValues;
+  setFieldsValue: (next: Partial<TValues>) => void;
+  resetFields: () => void;
+  validateFields: () => Record<string, string | null>;
+  submit: () => void;
 }
 
 export interface FormItemProps<TValues extends Record<string, any> = Record<string, any>> {
@@ -33,4 +44,3 @@ export interface FormItemProps<TValues extends Record<string, any> = Record<stri
   style?: React.CSSProperties;
   children: React.ReactElement;
 }
-

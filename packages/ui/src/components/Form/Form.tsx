@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
-import type { FormProps, FormItemProps, FormRule } from '../../types/form';
+import type { FormProps, FormItemProps, FormRule, FormApi } from '../../types/form';
 import styles from './Form.module.css';
 import '../../styles/variables.css';
 
@@ -9,6 +9,7 @@ interface FieldMeta {
   name: string;
   rules: FormRule[];
   valuePropName: 'value' | 'checked';
+  el?: HTMLElement | null;
 }
 
 interface FormContextType {
@@ -20,7 +21,9 @@ interface FormContextType {
   unregisterField: (name: string) => void;
   validateField: (name: string) => string | null;
   validateOnChange: boolean;
+  validateOnBlur: boolean;
   layout: 'vertical' | 'horizontal';
+  disabled: boolean;
 }
 
 const FormContext = createContext<FormContextType | null>(null);
@@ -32,6 +35,9 @@ export default function Form<TValues extends AnyValues = AnyValues>({
   layout = 'vertical',
   disabled = false,
   validateOnChange = true,
+  validateOnBlur = true,
+  onValuesChange,
+  formRef,
   className = '',
   style,
   children,
@@ -42,8 +48,12 @@ export default function Form<TValues extends AnyValues = AnyValues>({
   const fields = useRef<Map<string, FieldMeta>>(new Map());
 
   const setFieldValue = useCallback((name: string, value: any) => {
-    setValues(prev => ({ ...prev, [name]: value }));
-  }, []);
+    setValues(prev => {
+      const next = { ...prev, [name]: value };
+      onValuesChange?.(next as TValues, { name: name as any, value });
+      return next;
+    });
+  }, [onValuesChange]);
 
   const getFieldValue = useCallback((name: string) => values[name], [values]);
 
@@ -91,7 +101,19 @@ export default function Form<TValues extends AnyValues = AnyValues>({
     }
     setErrors(nextErrors);
     const hasError = Object.values(nextErrors).some(Boolean);
-    if (!hasError) onFinish?.(values as TValues);
+    if (!hasError) {
+      onFinish?.(values as TValues);
+    } else {
+      const firstErrorName = Array.from(fields.current.keys()).find(n => nextErrors[n]);
+      if (firstErrorName) {
+        const el = fields.current.get(firstErrorName)?.el;
+        if (el) {
+          const focusable = el.querySelector('input,textarea,button,[tabindex]') as HTMLElement | null;
+          (focusable || el).focus?.();
+          el.scrollIntoView?.({ block: 'center' });
+        }
+      }
+    }
   };
 
   const handleReset = () => {
@@ -109,12 +131,39 @@ export default function Form<TValues extends AnyValues = AnyValues>({
     unregisterField,
     validateField,
     validateOnChange,
+    validateOnBlur,
     layout,
-  }), [values, errors, setFieldValue, getFieldValue, registerField, unregisterField, validateField, validateOnChange, layout]);
+    disabled,
+  }), [values, errors, setFieldValue, getFieldValue, registerField, unregisterField, validateField, validateOnChange, validateOnBlur, layout, disabled]);
 
   const classes = [styles.form, layout === 'horizontal' ? styles['form-horizontal'] : '', disabled ? styles.disabled : '', className]
     .filter(Boolean)
     .join(' ');
+
+  const api: FormApi<TValues> = {
+    getFieldsValue: () => values as TValues,
+    setFieldsValue: (next) => {
+      setValues(prev => ({ ...prev, ...(next || {}) }));
+    },
+    resetFields: () => {
+      setValues({ ...(initialValues || {}) });
+      setErrors({});
+    },
+    validateFields: () => {
+      const nextErrors: Record<string, string | null> = {};
+      for (const name of fields.current.keys()) {
+        nextErrors[name] = runRules(name, values[name]);
+      }
+      setErrors(nextErrors);
+      return nextErrors;
+    },
+    submit: () => {
+      const fakeEvent = { preventDefault: () => {} } as any;
+      handleSubmit(fakeEvent);
+    }
+  };
+
+  if (formRef) formRef.current = api;
 
   return (
     <form className={classes} style={style} onSubmit={handleSubmit} onReset={handleReset} {...rest}>
@@ -139,13 +188,15 @@ export function FormItem<TValues extends AnyValues = AnyValues>({
 
   const mergedRules = required ? [{ required: true } as FormRule].concat(rules) : rules;
 
+  const itemRef = React.useRef<HTMLDivElement | null>(null);
   React.useEffect(() => {
-    ctx.registerField({ name, rules: mergedRules, valuePropName });
+    ctx.registerField({ name, rules: mergedRules, valuePropName, el: itemRef.current });
     return () => ctx.unregisterField(name);
   }, [name, JSON.stringify(mergedRules), valuePropName]);
 
   const value = ctx.getFieldValue(name);
   const error = ctx.errors[name] || null;
+  const helpId = `form-help-${name}`;
 
   const childProps: Record<string, any> = {
     [valuePropName]: value,
@@ -153,7 +204,10 @@ export function FormItem<TValues extends AnyValues = AnyValues>({
       ctx.setFieldValue(name, v);
       if (ctx.validateOnChange) ctx.validateField(name);
     },
-    disabled: undefined,
+    onBlur: () => { if (ctx.validateOnBlur) ctx.validateField(name); },
+    'aria-invalid': error ? true : undefined,
+    'aria-describedby': error || help ? helpId : undefined,
+    disabled: ctx.disabled || undefined,
   };
 
   const control = React.cloneElement(children, childProps);
@@ -161,7 +215,7 @@ export function FormItem<TValues extends AnyValues = AnyValues>({
   const itemClasses = [styles.item, error ? styles['has-error'] : '', className].filter(Boolean).join(' ');
 
   return (
-    <div className={itemClasses} style={style}>
+    <div ref={itemRef} className={itemClasses} style={style}>
       {label && (
         <div className={styles.label}>
           {label}
@@ -169,7 +223,7 @@ export function FormItem<TValues extends AnyValues = AnyValues>({
         </div>
       )}
       <div className={styles.control}>{control}</div>
-      <div className={styles.help}>{error || help || null}</div>
+      <div className={styles.help} id={helpId}>{error || help || null}</div>
     </div>
   );
 }

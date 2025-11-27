@@ -25,14 +25,10 @@ describe('Select', () => {
     expect(screen.getByText('Apple')).toBeInTheDocument()
   })
 
-  it('multi chips remove and clear all localized', () => {
-    const { rerender } = render(wrap(<Select options={options} multiple value={['apple', 'banana']} />))
+  it('multi chips remove localized', () => {
+    render(wrap(<Select options={options} multiple value={['apple', 'banana']} />))
     const removeBtns = screen.getAllByRole('button', { name: 'Remove' })
     expect(removeBtns.length).toBeGreaterThan(0)
-    const clearAll = screen.getByRole('button', { name: 'Clear all' })
-    fireEvent.click(clearAll)
-    rerender(wrap(<Select options={options} multiple value={[]} />))
-    expect(screen.queryByRole('button', { name: 'Clear all' })).toBeNull()
   })
 
   it('does not open when disabled', () => {

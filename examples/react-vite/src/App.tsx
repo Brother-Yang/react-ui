@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import {
   ConfigProvider,
   enUS,
@@ -27,6 +27,8 @@ export default function App() {
   const [multiValues, setMultiValues] = useState<Array<string | number>>([]);
   const [switchOn, setSwitchOn] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const apiRef = useRef<any>(null);
+  const [lastChange, setLastChange] = useState<string>('');
 
   const columns = [
     { key: 'name', title: 'Name', sortable: true },
@@ -361,6 +363,91 @@ export default function App() {
               <Button type="reset" variant="secondary">Reset</Button>
             </div>
           </Form>
+        </div>
+
+        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <h3 style={{ margin: '8px 0' }}>Form Examples</h3>
+          <div style={{ display: 'grid', gap: 16 }}>
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Blur Validation</h4>
+              <Form
+                initialValues={{ email: '', age: '', agree: false }}
+                validateOnChange={false}
+                validateOnBlur
+                onFinish={(vals) => console.log('blur form submit', vals)}
+                onValuesChange={(vals, changed) => setLastChange(`${changed.name}: ${String(changed.value)}`)}
+              >
+                <FormItem name="email" label="Email" required rules={[{ pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email' }]}>
+                  <Input placeholder="Enter email" />
+                </FormItem>
+                <FormItem name="age" label="Age" required rules={[{ pattern: /^\d+$/, message: 'Digits only' }]}>
+                  <Input placeholder="Enter age" />
+                </FormItem>
+                <FormItem name="agree" label="Agreement" required valuePropName="checked">
+                  <Checkbox label="I agree" />
+                </FormItem>
+                <div style={{ color: 'var(--dui-text-secondary)' }}>Last change: {lastChange}</div>
+                <div style={{ display: 'flex', gap: 12 }}>
+                  <Button type="submit">Submit</Button>
+                  <Button type="reset" variant="secondary">Reset</Button>
+                </div>
+              </Form>
+            </div>
+
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Horizontal Layout</h4>
+              <Form layout="horizontal" initialValues={{ company: '', subscribe: false }}>
+                <FormItem name="company" label="Company" required>
+                  <Input placeholder="Enter company" />
+                </FormItem>
+                <FormItem name="subscribe" label="Subscribe" valuePropName="checked">
+                  <Switch label="Receive updates" />
+                </FormItem>
+              </Form>
+            </div>
+
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Disabled Form</h4>
+              <Form disabled initialValues={{ name: 'Disabled', agree: true }}>
+                <FormItem name="name" label="Name">
+                  <Input />
+                </FormItem>
+                <FormItem name="agree" label="Agreement" valuePropName="checked">
+                  <Checkbox label="Agreed" />
+                </FormItem>
+              </Form>
+            </div>
+
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Form API</h4>
+              <Form
+                formRef={apiRef}
+                initialValues={{ username: '', city: '' }}
+                validateOnChange={false}
+                onValuesChange={(vals, changed) => console.log('values change', changed)}
+              >
+                <FormItem name="username" label="Username" required rules={[{ min: 3, message: 'Min 3 chars' }]}>
+                  <Input placeholder="Enter username" />
+                </FormItem>
+                <FormItem name="city" label="City" required>
+                  <Select
+                    options={[
+                      { label: 'Seattle', value: 'seattle' },
+                      { label: 'San Francisco', value: 'sf' },
+                      { label: 'New York', value: 'ny' }
+                    ]}
+                    placeholder="Select city"
+                  />
+                </FormItem>
+                <div style={{ display: 'flex', gap: 12 }}>
+                  <Button onClick={() => apiRef.current?.setFieldsValue({ username: 'Alice', city: 'seattle' })}>Fill</Button>
+                  <Button onClick={() => console.log('validate', apiRef.current?.validateFields())}>Validate</Button>
+                  <Button onClick={() => apiRef.current?.resetFields()} variant="secondary">Reset</Button>
+                  <Button onClick={() => apiRef.current?.submit()}>Submit</Button>
+                </div>
+              </Form>
+            </div>
+          </div>
         </div>
 
         <Tabs
