@@ -22,7 +22,8 @@ import {
   Timeline,
   Tooltip,
   Rate,
-  Progress
+  Progress,
+  Tree
 } from '@zephyr-ui/ui';
 
 export default function App() {
@@ -84,6 +85,43 @@ export default function App() {
   const [modalHighZ, setModalHighZ] = useState(false);
   const [modalLoadingOpen, setModalLoadingOpen] = useState(false);
   const [okLoading, setOkLoading] = useState(false);
+  const treeData = [
+    {
+      key: '0-0',
+      title: 'Parent 1',
+      children: [
+        { key: '0-0-0', title: 'Leaf 0-0-0' },
+        { key: '0-0-1', title: 'Leaf 0-0-1' },
+        { key: '0-0-2', title: 'Leaf 0-0-2' }
+      ]
+    },
+    {
+      key: '0-1',
+      title: 'Parent 2 (disabled)',
+      disabled: true,
+      children: [
+        { key: '0-1-0', title: 'Leaf 0-1-0' },
+        { key: '0-1-1', title: 'Leaf 0-1-1' }
+      ]
+    },
+    {
+      key: '0-2',
+      title: 'Parent 3'
+    }
+  ]
+  const [treeExpandedA, setTreeExpandedA] = useState<string[]>(['0-0'])
+  const [treeSelectedSingle, setTreeSelectedSingle] = useState<string[]>([])
+  const [treeSelectedMulti, setTreeSelectedMulti] = useState<string[]>([])
+  const [treeExpandedCtrl, setTreeExpandedCtrl] = useState<string[]>(['0-0'])
+  const [treeCheckedCtrl, setTreeCheckedCtrl] = useState<string[]>([])
+  function allKeys(nodes: Array<{ key: string; children?: any[] }>) {
+    const keys: string[] = []
+    function dfs(arr: any[]) {
+      arr.forEach(n => { keys.push(n.key); if (n.children) dfs(n.children) })
+    }
+    dfs(nodes)
+    return keys
+  }
   
 
   return (
@@ -752,6 +790,82 @@ export default function App() {
                   { key: 'ts2', content: 'Metrics warning', status: 'warning' },
                   { key: 'ts3', content: 'Error event', status: 'error' }
                 ]}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <h3 style={{ margin: '8px 0' }}>Tree Examples</h3>
+          <div style={{ display: 'grid', gap: 16 }}>
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Basic (default expanded)</h4>
+              <Tree treeData={treeData} defaultExpandedKeys={['0-0']} />
+            </div>
+
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Selectable (single)</h4>
+              <Tree
+                treeData={treeData}
+                selectable
+                expandedKeys={treeExpandedA}
+                onExpand={setTreeExpandedA}
+                selectedKeys={treeSelectedSingle}
+                onSelect={setTreeSelectedSingle as any}
+              />
+              <div style={{ marginTop: 8 }}>Selected: {treeSelectedSingle.join(', ') || 'None'}</div>
+            </div>
+
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Selectable (multiple)</h4>
+              <Tree
+                treeData={treeData}
+                selectable
+                multiple
+                defaultExpandedKeys={['0-0']}
+                selectedKeys={treeSelectedMulti}
+                onSelect={setTreeSelectedMulti as any}
+              />
+              <div style={{ marginTop: 8 }}>Selected: {treeSelectedMulti.join(', ') || 'None'}</div>
+            </div>
+
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Checkable (cascade)</h4>
+              <Tree
+                treeData={treeData}
+                checkable
+                defaultExpandedKeys={['0-0', '0-1']}
+              />
+            </div>
+
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Controlled (expand/check)</h4>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
+                <Button onClick={() => setTreeExpandedCtrl(allKeys(treeData))}>Expand All</Button>
+                <Button onClick={() => setTreeExpandedCtrl([])} variant="secondary">Collapse All</Button>
+                <Button onClick={() => setTreeCheckedCtrl(allKeys(treeData))}>Check All</Button>
+                <Button onClick={() => setTreeCheckedCtrl([])} variant="secondary">Uncheck All</Button>
+              </div>
+              <Tree
+                treeData={treeData}
+                checkable
+                expandedKeys={treeExpandedCtrl}
+                onExpand={setTreeExpandedCtrl}
+                checkedKeys={treeCheckedCtrl}
+                onCheck={(keys) => setTreeCheckedCtrl(keys)}
+              />
+              <div style={{ marginTop: 8 }}>Checked: {treeCheckedCtrl.join(', ') || 'None'}</div>
+            </div>
+
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Custom Icons</h4>
+              <Tree
+                treeData={treeData}
+                defaultExpandedKeys={['0-0']}
+                showIcon
+                iconRender={(node) => (
+                  <span aria-hidden>{node.children?.length ? '📁' : '📄'}</span>
+                )}
               />
             </div>
           </div>
