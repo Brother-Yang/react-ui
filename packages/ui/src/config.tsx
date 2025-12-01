@@ -59,6 +59,7 @@ type ConfigContextValue = {
   theme: ThemeMode;
   locale: Locale;
   tokens?: DesignTokens;
+  classPrefix?: string;
 };
 
 const ConfigContext = createContext<ConfigContextValue>({ theme: 'light', locale: enUS });
@@ -105,12 +106,15 @@ function applyDesignTokens(tokens?: DesignTokens) {
   });
 }
 
-export function ConfigProvider({ theme = 'light', locale = enUS, tokens, children }: { theme?: ThemeMode; locale?: Partial<Locale> | Locale; tokens?: DesignTokens; children: React.ReactNode }) {
+import { setClassPrefix } from './config/classPrefix';
+
+export function ConfigProvider({ theme = 'light', locale = enUS, tokens, classPrefix, children }: { theme?: ThemeMode; locale?: Partial<Locale> | Locale; tokens?: DesignTokens; classPrefix?: string; children: React.ReactNode }) {
   const resolvedLocale = useMemo(() => mergeLocale(enUS, locale), [locale]);
 
   useEffect(() => {
     applyThemeClass(theme);
     applyDesignTokens(tokens);
+    if (classPrefix) setClassPrefix(classPrefix);
     let media: MediaQueryList | null = null;
     let handler: ((ev: MediaQueryListEvent) => void) | null = null;
     if (theme === 'system' && window.matchMedia) {
@@ -120,11 +124,12 @@ export function ConfigProvider({ theme = 'light', locale = enUS, tokens, childre
     }
     return () => {
       if (media && handler) media.removeEventListener?.('change', handler);
+      setClassPrefix('zephyr-');
     };
-  }, [theme, tokens && JSON.stringify(tokens)]);
+  }, [theme, tokens && JSON.stringify(tokens), classPrefix]);
 
   return (
-    <ConfigContext.Provider value={{ theme, locale: resolvedLocale, tokens }}>
+    <ConfigContext.Provider value={{ theme, locale: resolvedLocale, tokens, classPrefix }}>
       {children}
     </ConfigContext.Provider>
   );

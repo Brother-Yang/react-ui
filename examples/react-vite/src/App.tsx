@@ -16,7 +16,10 @@ import {
   Form,
   FormItem,
   Empty,
-  DatePicker
+  DatePicker,
+  Collapse,
+  Timeline,
+  Tooltip
 } from '@zephyr-ui/ui';
 
 export default function App() {
@@ -64,6 +67,7 @@ export default function App() {
   const [switchB, setSwitchB] = useState(true);
   const [dpSingle, setDpSingle] = useState<Date | null>(null);
   const [dpRange, setDpRange] = useState<[Date, Date] | null>(null);
+  
 
   return (
     <ConfigProvider theme={dark ? 'dark' : 'light'} locale={locale}>
@@ -621,16 +625,17 @@ export default function App() {
 
             <div>
               <h4 style={{ margin: '4px 0' }}>Custom Styled + Prefix</h4>
-              <DatePicker
-                mode="single"
-                classNamePrefix="dp"
-                cssVariables={{
-                  '--cal-primary-color': '#7c3aed',
-                  '--cal-primary-hover': '#6d28d9',
-                  '--cal-font-size': '16px',
-                  '--cal-day-size': '36px'
-                }}
-              />
+              <ConfigProvider classPrefix="dp">
+                <DatePicker
+                  mode="single"
+                  cssVariables={{
+                    '--cal-primary-color': '#7c3aed',
+                    '--cal-primary-hover': '#6d28d9',
+                    '--cal-font-size': '16px',
+                    '--cal-day-size': '36px'
+                  }}
+                />
+              </ConfigProvider>
             </div>
 
             <div>
@@ -657,6 +662,73 @@ export default function App() {
             </div>
           </div>
         </div>
+
+        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <h3 style={{ margin: '8px 0' }}>Collapse Examples</h3>
+          <div style={{ display: 'grid', gap: 16 }}>
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Basic</h4>
+              <Collapse
+                items={[
+                  { key: 'a', label: 'Item A', content: <div style={{ padding: 8 }}>Content A</div> },
+                  { key: 'b', label: 'Item B', content: <div style={{ padding: 8 }}>Content B</div> },
+                  { key: 'c', label: 'Item C', content: <div style={{ padding: 8 }}>Content C</div> }
+                ]}
+                defaultActiveKeys={['a']}
+              />
+            </div>
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Accordion</h4>
+              <Collapse
+                accordion
+                items={[
+                  { key: 'x', label: 'Section X', content: <div style={{ padding: 8 }}>Details X</div> },
+                  { key: 'y', label: 'Section Y', content: <div style={{ padding: 8 }}>Details Y</div> },
+                  { key: 'z', label: 'Section Z (Disabled)', content: <div style={{ padding: 8 }}>Details Z</div>, disabled: true }
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <h3 style={{ margin: '8px 0' }}>Timeline Examples</h3>
+          <div style={{ display: 'grid', gap: 16 }}>
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Default</h4>
+              <Timeline
+                items={[
+                  { key: 't1', label: '09:00', content: 'Start' },
+                  { key: 't2', label: '11:00', content: 'Checkpoint' },
+                  { key: 't3', label: '13:00', content: 'Break' }
+                ]}
+              />
+            </div>
+            <div>
+              <h4 style={{ margin: '4px 0' }}>Status</h4>
+              <Timeline
+                items={[
+                  { key: 'ts1', content: 'Deploy', status: 'success' },
+                  { key: 'ts2', content: 'Metrics warning', status: 'warning' },
+                  { key: 'ts3', content: 'Error event', status: 'error' }
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <h3 style={{ margin: '8px 0' }}>Tooltip Examples</h3>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+            <Tooltip title="Top tip" placement="top"><Button>Top</Button></Tooltip>
+            <Tooltip title="Bottom tip" placement="bottom"><Button>Bottom</Button></Tooltip>
+            <Tooltip title="Left tip" placement="left"><Button>Left</Button></Tooltip>
+            <Tooltip title="Right tip" placement="right"><Button>Right</Button></Tooltip>
+            <Tooltip title={<span>Rich tip ✨</span>} placement="top"><span style={{ padding: 8, border: '1px solid var(--dui-border)', borderRadius: 6 }}>Hover me</span></Tooltip>
+          </div>
+        </div>
+
+        
       </div>
     </ConfigProvider>
   );

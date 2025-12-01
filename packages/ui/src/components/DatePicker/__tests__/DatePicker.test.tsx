@@ -6,12 +6,14 @@ import DatePicker from '../DatePicker';
 describe('DatePicker', () => {
   it('renders without crashing', () => {
     const { container } = render(<DatePicker />);
-    expect(container.querySelector('.cal-container')).toBeInTheDocument();
+    expect(container.querySelector('.zephyr-datepicker-picker')).toBeInTheDocument();
   });
 
   it('displays current month by default', () => {
     const { container } = render(<DatePicker />);
-    const titleElement = container.querySelector('.cal-title');
+    const caret = container.querySelector('.zephyr-datepicker-caret') as HTMLElement;
+    fireEvent.mouseDown(caret);
+    const titleElement = container.querySelector('.zephyr-datepicker-title');
     expect(titleElement).toBeInTheDocument();
     expect(titleElement?.textContent).toContain('年');
     expect(titleElement?.textContent).toContain('月');
@@ -20,7 +22,7 @@ describe('DatePicker', () => {
   it('handles single date selection', () => {
     const onChange = vi.fn();
     const { container } = render(<DatePicker mode="single" onChange={onChange} />);
-    const dateButtons = container.querySelectorAll('.cal-day:not(.cal-day-disabled)');
+    const dateButtons = container.querySelectorAll('.zephyr-datepicker-day:not(.zephyr-datepicker-day-disabled)');
     if (dateButtons.length > 0) {
       fireEvent.click(dateButtons[0]);
       expect(onChange).toHaveBeenCalledWith(expect.any(Date));
@@ -28,7 +30,9 @@ describe('DatePicker', () => {
   });
 
   it('navigates between months', () => {
-    render(<DatePicker />);
+    const { container } = render(<DatePicker />);
+    const caret = container.querySelector('.zephyr-datepicker-caret') as HTMLElement;
+    fireEvent.mouseDown(caret);
     const prevButton = screen.getByLabelText('上一月');
     const nextButton = screen.getByLabelText('下一月');
     fireEvent.click(prevButton);
@@ -37,4 +41,3 @@ describe('DatePicker', () => {
     expect(nextButton).toBeInTheDocument();
   });
 });
-
