@@ -146,11 +146,11 @@
   border: 2px solid var(--color-border);
   border-top: 2px solid var(--color-primary);
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: zephyr-loading-spin 1s linear infinite;
   z-index: 2;
 }
 
-@keyframes spin {
+@keyframes zephyr-loading-spin {
   0% { transform: translate(-50%, -50%) rotate(0deg); }
   100% { transform: translate(-50%, -50%) rotate(360deg); }
 }

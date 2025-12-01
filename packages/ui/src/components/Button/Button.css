@@ -115,13 +115,13 @@
   border: 2px solid currentColor;
   border-top-color: transparent;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: zephyr-button-spin 0.8s linear infinite;
 }
 
 .zephyr-button-small .zephyr-button-spinner { width: var(--spinner-size-sm); height: var(--spinner-size-sm); }
 .zephyr-button-large .zephyr-button-spinner { width: var(--spinner-size-lg); height: var(--spinner-size-lg); }
 
-@keyframes spin {
+@keyframes zephyr-button-spin {
   to { transform: rotate(360deg); }
 }
 
