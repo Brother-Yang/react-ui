@@ -23,6 +23,7 @@ import {
   Tooltip,
   Rate,
   Progress,
+  Drawer,
   Tree
 } from '@zephyr-ui/ui';
 
@@ -85,6 +86,10 @@ export default function App() {
   const [modalHighZ, setModalHighZ] = useState(false);
   const [modalLoadingOpen, setModalLoadingOpen] = useState(false);
   const [okLoading, setOkLoading] = useState(false);
+  const [drawerRight, setDrawerRight] = useState(false)
+  const [drawerLeft, setDrawerLeft] = useState(false)
+  const [drawerTop, setDrawerTop] = useState(false)
+  const [drawerBottom, setDrawerBottom] = useState(false)
   const treeData = [
     {
       key: '0-0',
@@ -1029,6 +1034,28 @@ export default function App() {
           >
             <div>点击确定后显示加载并延迟关闭。</div>
           </Modal>
+        </div>
+
+        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <h3 style={{ margin: '8px 0' }}>Drawer Examples</h3>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+            <Button onClick={() => setDrawerRight(true)}>Right</Button>
+            <Button onClick={() => setDrawerLeft(true)}>Left</Button>
+            <Button onClick={() => setDrawerTop(true)}>Top</Button>
+            <Button onClick={() => setDrawerBottom(true)}>Bottom</Button>
+          </div>
+          <Drawer open={drawerRight} title="Right" onClose={() => setDrawerRight(false)} placement="right" width={360}>
+            <div>右侧抽屉内容。</div>
+          </Drawer>
+          <Drawer open={drawerLeft} title="Left" onClose={() => setDrawerLeft(false)} placement="left" width={360}>
+            <div>左侧抽屉内容。</div>
+          </Drawer>
+          <Drawer open={drawerTop} title="Top" onClose={() => setDrawerTop(false)} placement="top" height={240}>
+            <div>顶部抽屉内容。</div>
+          </Drawer>
+          <Drawer open={drawerBottom} title="Bottom" onClose={() => setDrawerBottom(false)} placement="bottom" height={240}>
+            <div>底部抽屉内容。</div>
+          </Drawer>
         </div>
 
         <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>

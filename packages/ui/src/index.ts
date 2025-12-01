@@ -19,3 +19,4 @@ export { setClassPrefix, getClassPrefix, withPrefix } from './config/classPrefix
 export { Modal } from './components/Modal';
 export { Progress } from './components/Progress';
 export { Tree } from './components/Tree';
+export { Drawer } from './components/Drawer';
