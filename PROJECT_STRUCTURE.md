@@ -57,13 +57,13 @@
     - 'examples/*'
   ```
 - 根 `package.json`：
-  - `scripts.build`：`pnpm -F @zephyr-ui/ui build`
+  - `scripts.build`：`pnpm -F @zephyr/ui build`
   - `scripts.dev`：`pnpm -F example dev`
-  - `scripts.test`：`pnpm -F @zephyr-ui/ui test`
+  - `scripts.test`：`pnpm -F @zephyr/ui test`
 
 ## 组件库（packages/ui）
 - `package.json`：
-  - 包名：`@zephyr-ui/ui`
+- 包名：`@zephyr/ui`
   - 输出：`dist/index.es.js`、`dist/index.cjs.js`、`dist/index.d.ts`、`style.css`
   - `peerDependencies`：`react`、`react-dom`
   - `devDependencies`：`vite`、`vite-plugin-dts`、`typescript`、`vitest`、`@vitejs/plugin-react`
@@ -74,9 +74,9 @@
   - 在 `buildStart` 阶段将 `src/styles/components.css` 前缀处理并写入 `dist/style.css`
 - 导出入口（`src/index.ts`）：聚合导出主题、国际化、表单、表格，并引入基础样式文件
 - 样式系统：
-  - 前缀：默认 `dui`，可通过 `configureStyle({ prefix })` 动态覆盖（`src/styles/config.ts`）
-  - 变量：`prefix.css` 定义 `--dui-prefix`，`tokens.css` 定义设计令牌（颜色、字号、间距等）
-  - 组件样式：`components.css` 采用类名前缀（如 `.dui-btn`、`.dui-form`）；构建时生成 `style.css` 供使用方直接引入
+  - 前缀：默认 `zephyr`，可通过 `configureStyle({ prefix })` 动态覆盖（`src/styles/config.ts`）
+  - 变量：`prefix.css` 定义 `--zephyr-prefix`，`tokens.css` 定义设计令牌（颜色、字号、间距等）
+  - 组件样式：`components.css` 采用类名前缀（如 `.zephyr-btn`、`.zephyr-form`）；构建时生成 `style.css` 供使用方直接引入
 - 主题（`theme/ThemeProvider.tsx`）：
   - `ThemeProvider` 根据传入的 `theme` 对象，注入 CSS 变量（如 `--color-bg`）
   - `createTheme` 用于创建令牌对象
@@ -90,7 +90,7 @@
 
 ## 示例应用（examples/react-vite）
 - `package.json`：
-  - 依赖库：`"@zephyr-ui/ui": "file:../../packages/ui"`
+- 依赖库：`"@zephyr/ui": "file:../../packages/ui"`
   - `scripts`：`dev`/`build`（Vite）
 - `vite.config.ts`：React 插件，`server.port = 5173`
 - 入口（`src/main.tsx`）：在渲染前调用 `configureStyle({ prefix: 'myapp' })`
@@ -109,9 +109,9 @@
 - `pnpm install`
 - `pnpm dev`
 - `pnpm build`
-- `pnpm -F @zephyr-ui/ui test`
+- `pnpm -F @zephyr/ui test`
 
 ## 约定与规范
-- CSS 类统一采用前缀化：`${prefix}-<component>`，默认前缀为 `dui`
+- CSS 类统一采用前缀化：`${prefix}-<component>`，默认前缀为 `zephyr`
 - 使用 `createClassName(base, ...modifiers)` 生成类名，保证一致性
 - 主题通过 CSS 变量传递，不引入运行时 CSS-in-JS

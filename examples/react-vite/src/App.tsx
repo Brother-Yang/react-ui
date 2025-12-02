@@ -25,7 +25,7 @@ import {
   Progress,
   Drawer,
   Tree
-} from '@zephyr-ui/ui';
+} from '@zephyr/ui';
 
 export default function App() {
   const [dark, setDark] = useState(false);
@@ -66,7 +66,6 @@ export default function App() {
   const [checkboxSelected, setCheckboxSelected] = useState<string[]>([]);
   const [radioSelected, setRadioSelected] = useState<string | null>(null);
   const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
-  const [tableLoading, setTableLoading] = useState(false);
   const [tabsActive, setTabsActive] = useState<string>('a1');
   const [switchA, setSwitchA] = useState(false);
   const [switchB, setSwitchB] = useState(true);
@@ -151,7 +150,7 @@ export default function App() {
               onPressEnter={(v) => console.log('enter', v)}
             />
           </div>
-          <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <div style={{ paddingTop: 16 }}>
             <h3 style={{ margin: '8px 0' }}>Input Examples</h3>
             <div style={{ display: 'grid', gap: 12 }}>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -178,7 +177,7 @@ export default function App() {
           <div>
             <Checkbox checked={checked} onChange={setChecked} label="Checkbox" />
           </div>
-          <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <div style={{ paddingTop: 16 }}>
             <h3 style={{ margin: '8px 0' }}>Checkbox Examples</h3>
             <div style={{ display: 'grid', gap: 12 }}>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -212,7 +211,7 @@ export default function App() {
               onChange={setRadioValue}
             />
           </div>
-          <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <div style={{ paddingTop: 16 }}>
             <h3 style={{ margin: '8px 0' }}>Radio Examples</h3>
             <div style={{ display: 'grid', gap: 12 }}>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -290,7 +289,7 @@ export default function App() {
           <div>
             <Switch checked={switchOn} onChange={setSwitchOn} label={switchOn ? 'On' : 'Off'} />
           </div>
-          <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <div style={{ paddingTop: 16 }}>
             <h3 style={{ margin: '8px 0' }}>Switch Examples</h3>
             <div style={{ display: 'grid', gap: 12 }}>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -327,7 +326,7 @@ export default function App() {
             />
           </div>
 
-          <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <div style={{ paddingTop: 16 }}>
             <h3 style={{ margin: '8px 0' }}>Empty Examples</h3>
             <div style={{ display: 'grid', gap: 12 }}>
               <Empty>Empty</Empty>
@@ -336,7 +335,7 @@ export default function App() {
             </div>
           </div>
 
-          <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+          <div style={{ paddingTop: 16 }}>
             <h3 style={{ margin: '8px 0' }}>Table Examples</h3>
             <div style={{ display: 'grid', gap: 12 }}>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -428,7 +427,7 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Button Examples</h3>
           <div style={{ display: 'grid', gap: 12 }}>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -476,7 +475,7 @@ export default function App() {
           </Modal>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Form Example</h3>
           <Form
             initialValues={{ username: '', agree: false, fruit: '', colors: [], newsletter: false }}
@@ -524,7 +523,7 @@ export default function App() {
           </Form>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Form Examples</h3>
           <div style={{ display: 'grid', gap: 16 }}>
             <div>
@@ -609,7 +608,7 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Tabs Examples</h3>
           <div style={{ display: 'grid', gap: 12 }}>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -657,7 +656,7 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>DatePicker Examples</h3>
           <div style={{ display: 'grid', gap: 24 }}>
             <div>
@@ -735,7 +734,7 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Collapse Examples</h3>
           <div style={{ display: 'grid', gap: 16 }}>
             <div>
@@ -763,7 +762,7 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Timeline Examples</h3>
           <div style={{ display: 'grid', gap: 16 }}>
             <div>
@@ -800,7 +799,7 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Tree Examples</h3>
           <div style={{ display: 'grid', gap: 16 }}>
             <div>
@@ -876,7 +875,7 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Progress Examples</h3>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
             <Progress type="line" percent={30} />
@@ -893,18 +892,18 @@ export default function App() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Tooltip Examples</h3>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
             <Tooltip title="Top tip" placement="top"><Button>Top</Button></Tooltip>
             <Tooltip title="Bottom tip" placement="bottom"><Button>Bottom</Button></Tooltip>
             <Tooltip title="Left tip" placement="left"><Button>Left</Button></Tooltip>
             <Tooltip title="Right tip" placement="right"><Button>Right</Button></Tooltip>
-            <Tooltip title={<span>Rich tip ✨</span>} placement="top"><span style={{ padding: 8, border: '1px solid var(--dui-border)', borderRadius: 6 }}>Hover me</span></Tooltip>
+            <Tooltip title={<span>Rich tip ✨</span>} placement="top"><span style={{ padding: 8, borderRadius: 6 }}>Hover me</span></Tooltip>
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Modal Examples</h3>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
             <Button onClick={() => setModalBasic(true)}>Basic</Button>
@@ -1036,7 +1035,7 @@ export default function App() {
           </Modal>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Drawer Examples</h3>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
             <Button onClick={() => setDrawerRight(true)}>Right</Button>
@@ -1058,7 +1057,7 @@ export default function App() {
           </Drawer>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--dui-border)', paddingTop: 16 }}>
+        <div style={{ paddingTop: 16 }}>
           <h3 style={{ margin: '8px 0' }}>Rate Examples</h3>
           <div style={{ display: 'grid', gap: 16 }}>
             <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>

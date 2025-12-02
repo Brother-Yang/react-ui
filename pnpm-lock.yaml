@@ -36,7 +36,7 @@ importers:
 
   examples/react-vite:
     dependencies:
-      '@zephyr-ui/ui':
+      '@zephyr/ui':
         specifier: file:../../packages/ui
         version: link:../../packages/ui
       react:

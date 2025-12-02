@@ -1,11 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --dui-prefix: dui;
-}
-
+ 
 html, body, #root {
   height: 100%;
 }
