@@ -1,7 +1,7 @@
 import React from 'react'
 import './Timeline.css'
 import { withPrefix } from '../../config/classPrefix'
-import type { TimelineItem, TimelineProps } from '../../types/timeline'
+import type { TimelineProps } from '../../types/timeline'
 
 export default function Timeline({ items, orientation = 'vertical', className = '', style }: TimelineProps) {
   const rootClasses = [withPrefix('timeline'), withPrefix(`timeline-${orientation}`), className].filter(Boolean).join(' ')

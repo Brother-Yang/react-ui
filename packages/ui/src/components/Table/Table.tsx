@@ -1,12 +1,6 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useConfig } from '../../config';
-import type { 
-  TableProps, 
-  TableColumn, 
-  PaginationConfig, 
-  RowSelectionConfig,
-  ExpandableConfig 
-} from '../../types/table';
+import type { TableProps, TableColumn } from '../../types/table';
 import './Table.css';
 import '../../styles/variables.css';
 import { Empty } from '../Empty';

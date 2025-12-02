@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './Collapse.css'
 import { withPrefix } from '../../config/classPrefix'
-import type { CollapseItem, CollapseProps } from '../../types/collapse'
+import type { CollapseProps } from '../../types/collapse'
 
 export default function Collapse({ items, defaultActiveKeys = [], accordion = false, className = '', style, onChange, iconRender, iconPosition = 'left' }: CollapseProps) {
   const [active, setActive] = useState<string[]>(accordion ? (defaultActiveKeys[0] ? [defaultActiveKeys[0]] : []) : defaultActiveKeys)
