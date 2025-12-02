@@ -25,7 +25,7 @@ describe('Modal', () => {
   it('shows loading via confirmLoading and disables ok', () => {
     const onOk = vi.fn()
     render(wrap(<Modal open title="T" onOk={onOk} confirmLoading />))
-    const okBtn = screen.getByRole('button', { name: '确定' })
+    const okBtn = screen.getByRole('button', { name: 'OK' })
     expect(okBtn).toHaveAttribute('aria-busy', 'true')
     expect(okBtn).toBeDisabled()
     fireEvent.click(okBtn)

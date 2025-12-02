@@ -97,8 +97,8 @@ export default function Modal({
                 footer
               ) : (
                 <>
-                  <Button variant="secondary" onClick={(e) => onCancel?.(e as any)}>{cancelText ?? locale?.modal?.cancelText  }</Button>
-                    <Button variant="primary" onClick={(e) => onOk?.(e as any)} loading={confirmLoading}>{okText ?? locale?.modal?.okText}</Button>
+                  <Button variant="secondary" onClick={(e) => onCancel?.(e as any)}>{cancelText ?? locale?.modal?.cancelText}</Button>
+                  <Button variant="primary" onClick={(e) => onOk?.(e as any)} loading={confirmLoading}>{okText ?? locale?.modal?.okText}</Button>
                 </>
               )}
             </div>
