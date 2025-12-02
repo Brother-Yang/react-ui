@@ -179,7 +179,7 @@ function Table<T extends Record<string, any>>({
         {rowSelection && rowSelection.type === 'checkbox' && (
           <th className={withPrefix('table-header-cell')}> 
             <input
-              type={rowSelection.type === 'radio' ? 'radio' : 'checkbox'}
+              type="checkbox"
               ref={(el) => {
                 if (!el) return;
                 const selectableKeys = dataSource
