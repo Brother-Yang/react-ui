@@ -19,7 +19,6 @@
   },
   "files": [
     "dist",
-    "style.css",
     "index.d.ts",
     "LICENSE",
     "README.md"
